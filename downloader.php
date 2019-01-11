@@ -1,5 +1,5 @@
 <form action="" method="post">
-	URL na DVTV:<br>
+	DVTV URL (video.aktualne.cz):<br>
 	<input type="text" name="url" size="100" value="<?php echo preg_match('#^https?://#', $_POST['url']) ? $_POST['url'] : '' ?>">
 	<input type="submit">
 </form>
