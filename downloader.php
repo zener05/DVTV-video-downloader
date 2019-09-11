@@ -7,16 +7,15 @@
 <?php
 	if (preg_match('#^https?://#', $_POST['url'])) {
 		$web = file_get_contents($_POST['url']);
-		$title = preg_replace('#.*<h1.*?>(.*?)</h1>.*#s', '$1', $web);
+		$title = trim(preg_replace('#.*<h1.*?>(.*?)</h1>.*#s', '$1', $web));
 		echo "<h1>$title</h1>";
 		
-		$tracks = preg_match('#tracks: (\{.*\})#', $web, $matches);
-		$json = json_decode($matches[1]);
+		$jsonString = preg_replace('#.*BBXPlayer\.setup\(\s*(.*?)\);.*#s', '$1', $web);
+		$json = json_decode($jsonString);
 		
 		echo "<ul>";
-		foreach ($json->MP4 as $stream) {
+		foreach ($json->tracks->MP4 as $stream) {
 			echo "<li><a href='{$stream->src}'>{$stream->label}</a></li>";
 		}
 		echo "</ul>";
 	}
-	
